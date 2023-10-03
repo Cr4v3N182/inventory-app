@@ -13,6 +13,7 @@ df_csv = pd.read_csv("data.csv")
 date_time = f"{curent_date} {current_time}"
 unique_id = generate_unique_id()
 
+
 #add window
 label_add = sg.Text("Enter a parameters of item")
 text_id = sg.Text("Generated ID: ")
@@ -24,7 +25,7 @@ input_description = sg.Input("", key='description', expand_x=True)
 text_data = sg.Text("Date: ")
 input_data = sg.Input(date_time, key='date', disabled=True, expand_x=True)
 button_accept = sg.Button("Accept", key='accept')
-button_cancel = sg.Button("Cancel", key="cancel")
+button_cancel = sg.Button("Cancel", key='cancel')
 
 #Add a params for input to make them shorter
 add_layout = [[label_add],[text_id, input_id], [text_s_num, input_s_num],
@@ -59,7 +60,17 @@ while True:
     event, values = window.read()
     match event:
         case 'add':
-            window_add.read()
+            event, values = window_add.read()
+            match event:
+                case 'accept':
+                    input_values = (values['id'], values['serial'], values['description'], values['date'])
+                    new_item = list(input_values)
+                    item = str(new_item).replace("[", "").replace("]", "").replace("'", "")
+                    with open('data.csv', 'a') as file:
+                        file.write(f"\n{item}")
+
+                case 'cancel':
+                    window_add.close()
         case 'exit':
             break
         case sg.WIN_CLOSED:
