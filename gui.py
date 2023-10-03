@@ -10,17 +10,24 @@ now = datetime.now()
 curent_date = date.today()
 current_time = now.strftime("%H:%M:%S")
 df_csv = pd.read_csv("data.csv")
-
+date_time = f"{curent_date} {current_time}"
 #add window
 label_add = sg.Text("Enter a parameters of item")
+text_id = sg.Text("Enter ID: ")
 input_id = sg.Input("", key='id')
+text_s_num = sg.Text("Enter serial number: ")
 input_s_num = sg.Input("", key='serial')
+text_description = sg.Text("Enter description: ")
 input_description = sg.Input("", key='description')
-input_data = sg.Input("", key='serial')
+text_data = sg.Text("Date")
+input_data = sg.Input(f"{date_time}", key='date')
+button_accept = sg.Button("Accept", key='accept')
+button_cancel = sg.Button("Cancel", key="cancel")
 
 #Add a params for input to make them shorter
-add_layout = [[label_add],[input_id, input_s_num],
-              [input_description, input_data]]
+add_layout = [[label_add],[text_id, input_id, text_s_num, input_s_num],
+              [text_description, input_description, text_data, input_data],
+              [button_accept, button_cancel]]
 
 # Main Window
 label = sg.Text("Press Add button to enter item.")
@@ -44,7 +51,7 @@ layout = [[label], [add_button],
           [exit_button]]
 
 window = sg.Window("Inventory - app", layout=layout, size=(600,400))
-window_add = sg.Window("Adding Item", layout=add_layout, size=(300,300))
+window_add = sg.Window("Adding Item", layout=add_layout)
 
 while True:
     event, values = window.read()
