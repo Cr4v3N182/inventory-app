@@ -5,6 +5,7 @@ from functions import *
 import openpyxl
 import sqlite3
 import uuid
+import csv
 
 now = datetime.now()
 curent_date = date.today()
@@ -65,9 +66,10 @@ while True:
                 case 'accept':
                     input_values = (values['id'], values['serial'], values['description'], values['date'])
                     new_item = list(input_values)
-                    item = str(new_item).replace("[", "").replace("]", "").replace("'", "")
+                    item = new_item
                     with open('data.csv', 'a') as file:
-                        file.write(f"\n{item}")
+                        row_write = csv.writer(file)
+                        row_write.writerow(item)
 
                 case 'cancel':
                     window_add.close()
