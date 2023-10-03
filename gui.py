@@ -2,11 +2,14 @@ import PySimpleGUI as sg
 import pandas as pd
 from datetime import date, datetime
 from functions import get_items
+import openpyxl
+import sqlite3
 
 
 now = datetime.now()
 curent_date = date.today()
 current_time = now.strftime("%H:%M:%S")
+df_csv = pd.read_csv("data.csv")
 
 #add window
 label_add = sg.Text("Enter a parameters of item")
@@ -52,4 +55,11 @@ while True:
             break
         case sg.WIN_CLOSED:
             break
+        case 'ecsv':
+            df_csv.to_csv("exproted_data.csv", index=False)
+            sg.popup("Data has been exported to csv.",title="Inventory Export")
+        case 'exlsx':
+            df_csv.to_excel("exported_data.xlsx", index=False)
+            sg.popup("Data has been exported to xlsx.",title="Inventory Export")
+
 window.close()
